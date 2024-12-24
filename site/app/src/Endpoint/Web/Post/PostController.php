@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Endpoint\Web\Blog;
+namespace App\Endpoint\Web\Post;
 
 use Spiral\Prototype\Traits\PrototypeTrait;
 use Spiral\Router\Annotation\Route;
@@ -10,7 +10,7 @@ use Spiral\Router\Annotation\Route;
  * Simple home page controller. It renders home page template and also provides
  * an example of exception page.
  */
-final class BlogController
+final class PostController
 {
     /**
      * Read more about Prototyping:
@@ -19,13 +19,13 @@ final class BlogController
     use PrototypeTrait;
 
 
-    #[Route(route: '/blog', name: 'blog.index')]
+    #[Route(route: '/post', name: 'post.index')]
     public function index(): string
     {
-        return $this->views->render('blog/index');
+        return $this->views->render('post/index');
     }
 
-    #[Route(route: '/blog/create', name: 'blog.store', methods: ['POST'])]
+    #[Route(route: '/api/post/create', name: 'post.store', methods: ['POST'])]
     public function store()
     {
         dd($this->request->data->all());

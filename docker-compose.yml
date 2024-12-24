@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./site:/home/appuser/site
+    command: rr serve -c /home/appuser/site/.rr.yaml
+    ports:
+      - "80:8080"
+    container_name: app

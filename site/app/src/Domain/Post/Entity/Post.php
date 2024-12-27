@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Post\Entity;
 
-use App\Infrastructure\Persistence\Blog\CycleORMBlogRepository;
+use App\Infrastructure\Persistence\Post\CycleORMPostRepository;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 
 #[Entity(
-    repository: CycleORMBlogRepository::class,
+    repository: CycleORMPostRepository::class,
 )]
 class Post
 {

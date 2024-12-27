@@ -15,6 +15,11 @@ use App\Domain\Post\Repository\PostRepositoryInterface;
  */
 final class CycleORMPostRepository extends Repository implements PostRepositoryInterface
 {
+    public function getAll() : array
+    {
+        return $this->findAll();
+    }
+    
     public function getById(int $id): Post
     {
         $user = $this->findByPK($id);

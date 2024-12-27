@@ -8,4 +8,26 @@ services:
     command: rr serve -c /home/appuser/site/.rr.yaml
     ports:
       - "80:8080"
+    depends_on:
+      - postgres
+    networks:
+      - compose
     container_name: app
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - compose
+    container_name: postgres
+networks:
+  compose:
+    driver: bridge
+volumes:
+  pgdata:

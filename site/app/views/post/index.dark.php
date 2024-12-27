@@ -5,5 +5,5 @@
 </stack:push>
 
 <define:body>
-    is blog
+    посты
 </define:body>

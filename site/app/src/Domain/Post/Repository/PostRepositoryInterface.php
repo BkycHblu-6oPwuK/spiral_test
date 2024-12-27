@@ -9,6 +9,7 @@ use App\Domain\Post\Exception\PostNotFoundException;
 
 interface PostRepositoryInterface
 {
+    public function getAll(): array;
     /**
      * @throws PostNotFoundException
      */

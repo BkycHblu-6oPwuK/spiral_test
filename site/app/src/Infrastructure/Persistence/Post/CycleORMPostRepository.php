@@ -15,19 +15,23 @@ use App\Domain\Post\Repository\PostRepositoryInterface;
  */
 final class CycleORMPostRepository extends Repository implements PostRepositoryInterface
 {
-    public function getAll() : array
+    /**
+     * @return \App\Domain\Post\Entity\Post[]
+     */
+    public function getAll(): array
     {
-        return $this->findAll();
+        $posts = $this->findAll();
+        return $posts;
     }
-    
+
     public function getById(int $id): Post
     {
-        $user = $this->findByPK($id);
+        $post = $this->findByPK($id);
 
-        if ($user === null) {
+        if ($post === null) {
             throw new PostNotFoundException();
         }
 
-        return $user;
+        return $post;
     }
 }

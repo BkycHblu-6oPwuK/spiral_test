@@ -5,6 +5,8 @@ namespace App\Endpoint\Web\Post;
 
 use App\Domain\Post\Entity\Post;
 use App\Domain\Post\Repository\PostRepositoryInterface;
+use App\Domain\Post\Service\PostService;
+use App\Endpoint\Web\Filter\PostFilter;
 use Cycle\ORM\ORMInterface;
 use Spiral\Prototype\Traits\PrototypeTrait;
 use Spiral\Router\Annotation\Route;
@@ -31,17 +33,72 @@ final class PostController
         $this->repository = $orm->getRepository(Post::class);
     }
 
-
     #[Route(route: '/post', name: 'post.index')]
     public function index(): string
     {
-        dd($this->repository->getAll());
-        return $this->views->render('post/index');
+        $posts = $this->repository->getAll();
+        return $this->views->render('post/index', compact('posts'));
+    }
+
+    #[Route(route: '/post/<id:int>', name: 'post.show')]
+    public function show($id): string
+    {
+        $post = $this->repository->getById((int)$id);
+        return $this->views->render('post/show', compact('post'));
     }
 
     #[Route(route: '/api/post/create', name: 'post.store', methods: ['POST'])]
-    public function store()
+    public function store(PostFilter $filter, PostService $service)
     {
-        dd($this->request->data->all());
+        try {
+            $post = $service->create($filter->title, $filter->text);
+            return [
+                'success' => true,
+                'title' => $post->getTitle(),
+                'text' => $post->getText(),
+            ];
+        } catch (\Throwable $e) {
+            return [
+                'success' => false,
+                'error' => 'При выполении запроса произошла ошибка',
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
+    #[Route(route: '/api/post/update/<id:int>', name: 'post.update', methods: ['PATCH'])]
+    public function update($id, PostFilter $filter, PostService $service)
+    {
+        try {
+            $post = $service->update((int)$id, $filter->title, $filter->text);
+            return [
+                'success' => true,
+                'title' => $post->getTitle(),
+                'text' => $post->getText(),
+            ];
+        } catch (\Throwable $e) {
+            return [
+                'success' => false,
+                'error' => 'При выполении запроса произошла ошибка',
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
+    #[Route(route: '/api/post/delete/<id:int>', name: 'post.delete', methods: ['DELETE'])]
+    public function delete($id, PostService $service)
+    {
+        try {
+           $service->delete((int)$id);
+            return [
+                'success' => true,
+            ];
+        } catch (\Throwable $e) {
+            return [
+                'success' => false,
+                'error' => 'При выполении запроса произошла ошибка',
+                'message' => $e->getMessage()
+            ];
+        }
     }
 }

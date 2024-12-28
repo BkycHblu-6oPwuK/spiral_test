@@ -5,10 +5,7 @@
 </stack:push>
 
 <define:body>
-@foreach($posts as $post)
     <div>{{$post->getId()}}</div>
     <div>{{$post->getTitle()}}</div>
     <div>{{$post->getText()}}</div>
-    <div>-----------------------</div>
-@endforeach
 </define:body>

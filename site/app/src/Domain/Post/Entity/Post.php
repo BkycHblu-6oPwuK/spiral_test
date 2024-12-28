@@ -39,4 +39,13 @@ class Post
     {
         return $this->text;
     }
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function setText(string $text): void
+    {
+        $this->text = $text;
+    }
 }
